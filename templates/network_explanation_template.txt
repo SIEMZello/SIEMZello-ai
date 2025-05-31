@@ -1,0 +1,21 @@
+As a security analyst, I need to explain the following network traffic alert:
+
+Network Traffic Information:
+Duration: {raw_data.get("dur", "Unknown")}
+Protocol: {raw_data.get("proto", "Unknown")}
+Service: {raw_data.get("service", "Unknown")}
+State: {raw_data.get("state", "Unknown")}
+
+Attack Detection:
+- This network traffic has been flagged as potentially malicious with a probability of {probability:.2f}
+- Attack Type: {detection_result.get("attack_type", "Unknown")}
+- Attack Type Probabilities: {detection_result.get("attack_type_probabilities", {})}
+- The traffic may be exhibiting patterns consistent with known attack signatures
+
+Look for:
+- Unusual connection patterns or protocol mismatches
+- Unexpected service usage or connection states
+- Potentially malicious source/destination combinations
+- Connection attempts to known malicious endpoints
+
+Based on the provided data, explain what makes this network traffic suspicious, what type of attack it most likely represents, and what a security analyst should investigate to confirm the nature of this threat.

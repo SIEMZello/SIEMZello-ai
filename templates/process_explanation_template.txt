@@ -1,0 +1,15 @@
+As a security analyst, I need to explain the following process anomaly:
+
+Process Information:
+CMD: {raw_data.get("CMD", "Unknown")}
+PID: {raw_data.get("PID", "Unknown")}
+CPU Usage: {raw_data.get("CPU", "Unknown")}
+Runtime: {raw_data.get("TRUN", "Unknown")}
+
+Anomaly Detection:
+- This process has been flagged as anomalous with a probability of {probability:.2f}
+- The process may be exhibiting unusual CPU usage patterns, runtime behavior, or state transitions
+- Look for unexpected high CPU usage, unusual execution time, or abnormal process states
+- Potential issues could include crypto miners, background malicious processes, or system resource abuse
+
+Based on the provided data, explain what makes this process suspicious, what potential threats it might represent, and what a security analyst should look for when investigating this alert.

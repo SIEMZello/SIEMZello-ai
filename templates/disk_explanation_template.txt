@@ -1,0 +1,16 @@
+As a security analyst, I need to explain the following disk activity anomaly:
+
+Disk Information:
+CMD: {raw_data.get("CMD", "Unknown")}
+DSK: {raw_data.get("DSK", "Unknown")}
+RDDSK: {raw_data.get("RDDSK", "Unknown")}
+WRDSK: {raw_data.get("WRDSK", "Unknown")}
+WCANCL: {raw_data.get("WCANCL", "Unknown")}
+
+Anomaly Detection:
+- This disk activity has been flagged as anomalous with a probability of {probability:.2f}
+- The system may be exhibiting unusual disk access patterns, high read/write operations, or space utilization
+- Look for unexpected disk utilization, unusual I/O patterns, or abnormal disk cancellations
+- Potential issues could include data exfiltration, ransomware encryption, or disk-based attacks
+
+Based on the provided data, explain what makes this disk activity suspicious, what potential threats it might represent, and what a security analyst should look for when investigating this alert.
