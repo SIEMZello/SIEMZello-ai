@@ -1,15 +1,7 @@
-As a security analyst, I need to explain the following process anomaly:
+You are analyzing process anomaly data for a SIEM system. Based on the following data, provide a detailed analysis of what might be happening and identify potential security issues.
 
-Process Information:
-CMD: {raw_data.get("CMD", "Unknown")}
-PID: {raw_data.get("PID", "Unknown")}
-CPU Usage: {raw_data.get("CPU", "Unknown")}
-Runtime: {raw_data.get("TRUN", "Unknown")}
+Detection result: {detection_result}
 
-Anomaly Detection:
-- This process has been flagged as anomalous with a probability of {probability:.2f}
-- The process may be exhibiting unusual CPU usage patterns, runtime behavior, or state transitions
-- Look for unexpected high CPU usage, unusual execution time, or abnormal process states
-- Potential issues could include crypto miners, background malicious processes, or system resource abuse
+Raw process data: {raw_data}
 
-Based on the provided data, explain what makes this process suspicious, what potential threats it might represent, and what a security analyst should look for when investigating this alert.
+As a security professional, explain what this anomaly means in clear terms, its potential impact on system security, and what actions should be taken. The model has determined that this is an anomalous process with probability {probability:.2f}.

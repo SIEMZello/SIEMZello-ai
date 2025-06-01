@@ -1,15 +1,7 @@
-As a security analyst, I need to explain the following memory usage anomaly:
+You are analyzing memory usage anomaly data for a SIEM system. Based on the following data, provide a detailed analysis of what might be happening and identify potential security issues.
 
-Memory Information:
-CMD: {raw_data.get("CMD", "Unknown")}
-DSK: {raw_data.get("DSK", "Unknown")}
-RDDSK: {raw_data.get("RDDSK", "Unknown")}
-WRDSK: {raw_data.get("WRDSK", "Unknown")}
+Detection result: {detection_result}
 
-Anomaly Detection:
-- This memory activity has been flagged as anomalous with a probability of {probability:.2f}
-- The system may be exhibiting unusual memory usage patterns, read/write operations, or allocation behaviors
-- Look for unexpected memory consumption, unusual read/write patterns, or memory leaks
-- Potential issues could include memory-based attacks, resource exhaustion, or application vulnerabilities
+Raw memory data: {raw_data}
 
-Based on the provided data, explain what makes this memory activity suspicious, what potential threats it might represent, and what a security analyst should look for when investigating this alert.
+As a security professional, explain what this memory anomaly means in clear terms, its potential impact on system security, and what actions should be taken. The model has determined that this is an anomalous memory pattern with probability {probability:.2f}.

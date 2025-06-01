@@ -1,21 +1,5 @@
-As a security analyst, I need to provide a comprehensive assessment of the following integrated security alert:
+You are analyzing an integrated SIEM anomaly report with multiple potential security issues across different system components. 
 
-Alert Summary:
-Timestamp: {detection_result.get("timestamp", "Unknown")}
-Total Anomalies: {detection_result.get("total_anomalies", 0)}
-Severity: {detection_result.get("severity", "Unknown")}
+System overview: {detection_result}
 
-Breakdown by Category:
-- Process Anomalies: {detection_result.get("process_anomalies", 0)}
-- Memory Anomalies: {detection_result.get("memory_anomalies", 0)}
-- Disk Anomalies: {detection_result.get("disk_anomalies", 0)}
-- Network Attacks: {detection_result.get("network_attacks", 0)}
-
-Correlation Analysis:
-Based on the pattern of anomalies across different system components, explain:
-1. The likely attack scenario or system issue that could explain these anomalies
-2. Whether these anomalies appear to be related or independent issues
-3. The potential impact to system security and operations
-4. Priority level for investigation and response
-
-Provide a concise, actionable interpretation of these anomalies that would help a security team understand the situation and determine appropriate next steps.
+As a security professional, provide a comprehensive analysis of these findings, explaining the potential attack scenario, correlations between the anomalies, and prioritized actions that should be taken.

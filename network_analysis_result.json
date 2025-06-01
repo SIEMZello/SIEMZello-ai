@@ -1,0 +1,13 @@
+{
+  "record_id": 0,
+  "is_attack": true,
+  "attack_probability": 0.8651435186475328,
+  "attack_type": "DoS",
+  "attack_type_probabilities": {
+    "Fuzzers": 0.04531212836379698,
+    "Reconnaissance": 0.0033602476328671517,
+    "Exploits": 0.2050351536532754,
+    "DoS": 0.5702203330744621,
+    "Generic": 0.1760721372755983
+  }
+}

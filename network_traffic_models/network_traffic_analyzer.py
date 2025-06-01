@@ -139,6 +139,35 @@ def generate_sample_data(n_samples=5):
     
     return pd.DataFrame(synthetic_data)
 
+def generate_sample_data(num_samples=5):
+    """
+    Generate sample network traffic data for testing.
+    
+    Args:
+        num_samples (int): Number of sample records to generate
+        
+    Returns:
+        pd.DataFrame: Sample network traffic data
+    """
+    import numpy as np
+    import pandas as pd
+    
+    # Generate random data
+    data = {
+        'src_ip': [f"192.168.1.{np.random.randint(1, 255)}" for _ in range(num_samples)],
+        'dst_ip': [f"10.0.0.{np.random.randint(1, 255)}" for _ in range(num_samples)],
+        'src_port': np.random.randint(1024, 65535, size=num_samples),
+        'dst_port': np.random.choice([80, 443, 22, 21, 25, 53], size=num_samples),
+        'protocol': np.random.choice(['TCP', 'UDP', 'ICMP'], size=num_samples),
+        'bytes': np.random.randint(64, 1500, size=num_samples),
+        'packets': np.random.randint(1, 10, size=num_samples),
+        'duration': np.random.uniform(0.1, 10.0, size=num_samples),
+        'flags': np.random.choice(['S', 'SA', 'A', 'PA', 'FA'], size=num_samples),
+        'timestamp': np.random.randint(1600000000, 1610000000, size=num_samples)
+    }
+    
+    return pd.DataFrame(data)
+
 def main():
     """Demo the NetworkTrafficAnalyzer with synthetic data."""
     # Generate sample data
