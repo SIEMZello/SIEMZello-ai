@@ -4,10 +4,16 @@ import pandas as pd
 import numpy as np
 import json
 
+
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+'''
 # Add the project root to sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
-
+'''
 # Import model class
 from memory_models.src.models.memory_model import MemoryModel
 
