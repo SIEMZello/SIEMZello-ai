@@ -2,23 +2,22 @@ from pydantic import BaseModel
 from typing import Optional
 
 class DiskLogEntry(BaseModel):
-    PID: int
     ts: int
+    PID: int
     CMD: str
-    disk_reads: float
-    disk_writes: float
-    disk_read_bytes: float
-    disk_write_bytes: float
-    disk_utilization: float
+    RDDSK: str
+    WRDSK: str
+    WCANCL: str
+    DSK: str
 
 class DiskAnalysisResult(BaseModel):
     record_id: int
     is_anomaly: bool
     anomaly_probability: float
-    ts: Optional[str]
+    ts: Optional[int]
     CMD: Optional[str]
-    disk_reads: Optional[float]
-    disk_writes: Optional[float]
-    disk_read_bytes: Optional[float]
-    disk_write_bytes: Optional[float]
-    disk_utilization: Optional[float]
+    RDDSK: Optional[str]
+    WRDSK: Optional[str]
+    WCANCL: Optional[str]
+    DSK: Optional[str]
+    PID: Optional[int]
