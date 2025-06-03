@@ -1,20 +1,17 @@
 from fastapi import APIRouter, HTTPException
-from typing import List
 import pandas as pd
 
 from api.schemas.memory_schemas import (
-    MemoryAnalysisRequest,
-    MemoryAnalysisResponse,
+    MemoryLogEntry,
     MemoryAnalysisResult
 )
 from api.schemas.process_schemas import (
-    ProcessAnalysisRequest,
-    ProcessAnalysisResponse,
+    ProcessLogEntry,
     ProcessAnalysisResult
 )
 from api.schemas.disk_schemas import (
-    DiskAnalysisRequest,
-    DiskAnalysisResponse,
+    DiskLogEntry,
+ 
     DiskAnalysisResult
 )
 from memory_models.memory_analyzer import MemoryAnalyzer
@@ -28,56 +25,45 @@ memory_analyzer = MemoryAnalyzer()
 process_analyzer = ProcessAnalyzer()
 disk_analyzer = DiskAnalyzer()
 
-@router.post("/predict/memory", response_model=MemoryAnalysisResponse)
-async def predict_memory_anomalies(request: MemoryAnalysisRequest):
+@router.post("/predict/memory", response_model=MemoryAnalysisResult)
+async def predict_memory_anomalies(request: MemoryLogEntry):
     """
-    Analyze memory logs for anomalies.
+    Analyze a single memory log for anomalies.
     
     Args:
-        request: MemoryAnalysisRequest containing memory log entries
+        request: MemoryLogEntry containing a single memory log  
         
     Returns:
-        MemoryAnalysisResponse with analysis results
+        MemoryAnalysisResult with analysis result
     """
     try:
         # Convert request data to DataFrame
-        memory_data = pd.DataFrame([log.dict() for log in request.logs])
+        memory_data = pd.DataFrame([request.dict()])
         
         if memory_data.empty:
-            raise HTTPException(status_code=400, detail="No memory logs provided")
+            raise HTTPException(status_code=400, detail="No memory log provided")
             
         # Analyze memory data
         results = memory_analyzer.analyze(memory_data)
         
-        # Convert results to response format
-        analysis_results = []
-        anomaly_count = 0
-        
-        for result in results:
-            is_anomaly = result["is_anomaly"]
-            if is_anomaly:
-                anomaly_count += 1
-                
-            analysis_result = MemoryAnalysisResult(
-                record_id=result["record_id"],
-                is_anomaly=is_anomaly,
-                anomaly_probability=result["anomaly_probability"],
-                ts=result.get("ts"),
-                CMD=result.get("CMD"),
-                RDDSK=result.get("RDDSK"),
-                WRDSK=result.get("WRDSK"),
-                DSK=result.get("DSK")
-            )
-            analysis_results.append(analysis_result)
+        if not results:
+            raise HTTPException(status_code=500, detail="No result from analyzer")
             
-        return MemoryAnalysisResponse(
-            results=analysis_results,
-            total_records=len(results),
-            anomaly_count=anomaly_count
+        result = results[0]
+        
+        return MemoryAnalysisResult(
+            record_id=result["record_id"],
+            is_anomaly=result["is_anomaly"],
+            anomaly_probability=result["anomaly_probability"],
+            ts=result.get("ts"),
+            CMD=result.get("CMD"),
+            RDDSK=result.get("RDDSK"),
+            WRDSK=result.get("WRDSK"),
+            DSK=result.get("DSK")
         )
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error analyzing memory logs: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error analyzing memory log: {str(e)}")
 
 @router.get("/health/memory")
 async def check_memory_analyzer_health():
@@ -106,56 +92,44 @@ async def check_memory_analyzer_health():
             detail=f"Memory analyzer health check failed: {str(e)}"
         )
 
-@router.post("/predict/process", response_model=ProcessAnalysisResponse)
-async def predict_process_anomalies(request: ProcessAnalysisRequest):
+@router.post("/predict/process", response_model=ProcessAnalysisResult)
+async def predict_process_anomalies(request: ProcessLogEntry):
     """
-    Analyze process/CPU logs for anomalies.
+    Analyze a single process/CPU log for anomalies.
     
     Args:
-        request: ProcessAnalysisRequest containing process log entries
+        request: ProcessLogEntry containing a single process log
         
     Returns:
-        ProcessAnalysisResponse with analysis results
+        ProcessAnalysisResult with analysis result
     """
     try:
-        # Convert request data to DataFrame
-        process_data = pd.DataFrame([log.dict() for log in request.logs])
+        process_data = pd.DataFrame([request.dict()])
         
         if process_data.empty:
-            raise HTTPException(status_code=400, detail="No process logs provided")
+            raise HTTPException(status_code=400, detail="No process log provided")
             
         # Analyze process data
         results = process_analyzer.analyze(process_data)
         
-        # Convert results to response format
-        analysis_results = []
-        anomaly_count = 0
-        
-        for result in results:
-            is_anomaly = result["is_anomaly"]
-            if is_anomaly:
-                anomaly_count += 1
-                
-            analysis_result = ProcessAnalysisResult(
-                record_id=result["record_id"],
-                is_anomaly=is_anomaly,
-                anomaly_probability=result["anomaly_probability"],
-                ts=result.get("ts"),
-                CMD=result.get("CMD"),
-                CPU=result.get("CPU"),
-                MEM=result.get("MEM"),
-                STATUS=result.get("STATUS")
-            )
-            analysis_results.append(analysis_result)
+        if not results:
+            raise HTTPException(status_code=500, detail="No result from analyzer")
             
-        return ProcessAnalysisResponse(
-            results=analysis_results,
-            total_records=len(results),
-            anomaly_count=anomaly_count
+        result = results[0]
+        
+        return ProcessAnalysisResult(
+            record_id=result["record_id"],
+            is_anomaly=result["is_anomaly"],
+            anomaly_probability=result["anomaly_probability"],
+            ts=result.get("ts"),
+            CMD=result.get("CMD"),
+            CPU=result.get("CPU"),
+            MEM=result.get("MEM"),
+            STATUS=result.get("STATUS")
         )
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error analyzing process logs: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error analyzing process log: {str(e)}")
 
 @router.get("/health/process")
 async def check_process_analyzer_health():
@@ -183,58 +157,47 @@ async def check_process_analyzer_health():
             detail=f"Process analyzer health check failed: {str(e)}"
         )
 
-@router.post("/predict/disk", response_model=DiskAnalysisResponse)
-async def predict_disk_anomalies(request: DiskAnalysisRequest):
+@router.post("/predict/disk", response_model=DiskAnalysisResult)
+async def predict_disk_anomalies(request: DiskLogEntry):
     """
-    Analyze disk I/O logs for anomalies.
+    Analyze a single disk I/O log for anomalies.
     
     Args:
-        request: DiskAnalysisRequest containing disk I/O log entries
+        request: DiskLogEntry containing a single disk log
         
     Returns:
-        DiskAnalysisResponse with analysis results
+        DiskAnalysisResult with analysis result
     """
     try:
         # Convert request data to DataFrame
-        disk_data = pd.DataFrame([log.dict() for log in request.logs])
+        disk_data = pd.DataFrame([request.dict()])
         
         if disk_data.empty:
-            raise HTTPException(status_code=400, detail="No disk logs provided")
+            raise HTTPException(status_code=400, detail="No disk log provided")
             
         # Analyze disk data
         results = disk_analyzer.analyze(disk_data)
         
-        # Convert results to response format
-        analysis_results = []
-        anomaly_count = 0
-        
-        for result in results:
-            is_anomaly = result["is_anomaly"]
-            if is_anomaly:
-                anomaly_count += 1
-                
-            analysis_result = DiskAnalysisResult(
-                record_id=result["record_id"],
-                is_anomaly=is_anomaly,
-                anomaly_probability=result["anomaly_probability"],
-                ts=result.get("ts"),
-                CMD=result.get("CMD"),
-                disk_reads=result.get("disk_reads"),
-                disk_writes=result.get("disk_writes"),
-                disk_read_bytes=result.get("disk_read_bytes"),
-                disk_write_bytes=result.get("disk_write_bytes"),
-                disk_utilization=result.get("disk_utilization")
-            )
-            analysis_results.append(analysis_result)
+        if not results:
+            raise HTTPException(status_code=500, detail="No result from analyzer")
             
-        return DiskAnalysisResponse(
-            results=analysis_results,
-            total_records=len(results),
-            anomaly_count=anomaly_count
+        result = results[0]
+        
+        return DiskAnalysisResult(
+            record_id=result["record_id"],
+            is_anomaly=result["is_anomaly"],
+            anomaly_probability=result["anomaly_probability"],
+            ts=result.get("ts"),
+            CMD=result.get("CMD"),
+            disk_reads=result.get("disk_reads"),
+            disk_writes=result.get("disk_writes"),
+            disk_read_bytes=result.get("disk_read_bytes"),
+            disk_write_bytes=result.get("disk_write_bytes"),
+            disk_utilization=result.get("disk_utilization")
         )
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error analyzing disk logs: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error analyzing disk log: {str(e)}")
 
 @router.get("/health/disk")
 async def check_disk_analyzer_health():

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 
 class ProcessLogEntry(BaseModel):
     PID: int
@@ -8,9 +8,6 @@ class ProcessLogEntry(BaseModel):
     CPU: float
     MEM: float
     STATUS: str
-
-class ProcessAnalysisRequest(BaseModel):
-    logs: List[ProcessLogEntry]
 
 class ProcessAnalysisResult(BaseModel):
     record_id: int
@@ -21,8 +18,3 @@ class ProcessAnalysisResult(BaseModel):
     CPU: Optional[float]
     MEM: Optional[float]
     STATUS: Optional[str]
-
-class ProcessAnalysisResponse(BaseModel):
-    results: List[ProcessAnalysisResult]
-    total_records: int
-    anomaly_count: int

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 
 class MemoryLogEntry(BaseModel):
     PID: int
@@ -10,9 +10,6 @@ class MemoryLogEntry(BaseModel):
     WCANCL: str
     DSK: str
 
-class MemoryAnalysisRequest(BaseModel):
-    logs: List[MemoryLogEntry]
-
 class MemoryAnalysisResult(BaseModel):
     record_id: int
     is_anomaly: bool
@@ -22,8 +19,3 @@ class MemoryAnalysisResult(BaseModel):
     RDDSK: Optional[str]
     WRDSK: Optional[str]
     DSK: Optional[str]
-
-class MemoryAnalysisResponse(BaseModel):
-    results: List[MemoryAnalysisResult]
-    total_records: int
-    anomaly_count: int
