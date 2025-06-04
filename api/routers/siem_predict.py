@@ -125,7 +125,7 @@ async def predict_process_anomalies(request: ProcessLogEntry):
             CMD=result.get("CMD"),
             CPU=result.get("CPU"),
             MEM=result.get("MEM"),
-            STATUS=result.get("STATUS")
+            Status=result.get("Status")
         )
         
     except Exception as e:
@@ -144,7 +144,7 @@ async def check_process_analyzer_health():
             "CMD": "test",
             "CPU": 5.0,
             "MEM": 2.5,
-            "STATUS": "S"
+            "Status": "S"
         }])
         
         # Try to analyze it
